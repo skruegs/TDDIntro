@@ -2,6 +2,7 @@ package com.thoughtworks.tddintro.library;
 
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormatter;
+import org.junit.Before;
 import org.junit.Test;
 
 import java.io.BufferedReader;
@@ -11,9 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.mockito.Matchers.contains;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 public class LibraryTest {
 
@@ -24,31 +23,49 @@ public class LibraryTest {
 
      */
 
+    private List<String> books;
+    private PrintStream printStream;
+    private DateTimeFormatter dateTimeFormatter;
+
+    @Before
+    public void setUp() {
+        books = new ArrayList<>();
+        printStream = mock(PrintStream.class);
+        dateTimeFormatter = mock(DateTimeFormatter.class);
+    }
+
 
     @Test
     public void shouldPrintBookTitleWhenThereIsOneBook() {
-
-        List<String> books = new ArrayList<>();
         String title = "Book Title";
         books.add(title);
-        PrintStream printStream = mock(PrintStream.class);
-        DateTimeFormatter dateTimeFormatter = mock(DateTimeFormatter.class);
         Library library = new Library(books, printStream, dateTimeFormatter);
 
         library.listBooks();
 
         // add a verify statement here that shows that the book title was printed by to the printStream
+        verify(printStream).println("Book Title");
     }
 
     @Test
     public void shouldPrintNothingWhenThereAreNoBooks() {
+        Library library = new Library(books, printStream, dateTimeFormatter);
 
-        // implement me
+        library.listBooks();
+
+        verifyZeroInteractions(printStream);
     }
 
     @Test
     public void shouldPrintBothBookTitlesWhenThereAreTwoBooks() throws IOException {
-        // implement me
+        books.add("Book Title 1");
+        books.add("Book Title 2");
+        Library library = new Library(books, printStream, dateTimeFormatter);
+
+        library.listBooks();
+
+        verify(printStream).println("Book Title 1");
+        verify(printStream).println("Book Title 2");
     }
 
     /*
