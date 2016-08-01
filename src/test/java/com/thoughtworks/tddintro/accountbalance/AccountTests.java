@@ -1,5 +1,6 @@
 package com.thoughtworks.tddintro.accountbalance;
 
+import org.junit.Before;
 import org.junit.Test;
 
 import static org.hamcrest.core.Is.is;
@@ -13,12 +14,14 @@ public class AccountTests {
         account.deposit(50);
         assertThat(account.getBalance(), is(150));
     }
-//
-//    @Test
-//    public void shouldDecreaseMyBalanceWhenIWithdrawMoney(){
-//
-//    }
-//
+
+    @Test
+    public void shouldDecreaseMyBalanceWhenIWithdrawMoney(){
+        Account account = new Account(100);
+        account.withdraw(50);
+        assertThat(account.getBalance(), is(50));
+    }
+
 //    @Test
 //    public void shouldNotDecreaseMyBalanceWhenIWithdrawMoneyAndDoNotHaveEnoughToCoverTheWithdrawal(){
 //
